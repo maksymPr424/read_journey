@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #141414;
+  --foreground: #f9f9f9;
+  --lightGray: #686868;
+  --grayPercent: #e3e3e34d;
+  --gray: #262626;
+  --lightDark: #1F1F1F;
+  --blue: #4F92F7;
+  --green: #30B94D;
+  --error: #E90516;
+
+  font-weight: 500;
+}
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+} */
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+}
