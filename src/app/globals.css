@@ -8,10 +8,10 @@
   --lightGray: #686868;
   --grayPercent: #e3e3e34d;
   --gray: #262626;
-  --lightDark: #1F1F1F;
-  --blue: #4F92F7;
-  --green: #30B94D;
-  --error: #E90516;
+  --lightDark: #1f1f1f;
+  --blue: #4f92f7;
+  --green: #30b94d;
+  --error: #e90516;
 
   font-weight: 500;
 }
@@ -26,4 +26,24 @@
 body {
   color: var(--foreground);
   background: var(--background);
+}
+
+input[type='number'] {
+  appearance: textfield;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }

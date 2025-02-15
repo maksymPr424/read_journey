@@ -9,6 +9,7 @@ export interface ModalProps {
   onClose: () => void;
   className?: string;
 }
+
 export default function Modal({
   show,
   children,
@@ -21,6 +22,7 @@ export default function Modal({
         as="div"
         className="fixed inset-0 z-50 flex items-center"
         onClose={onClose}
+        static
       >
         <Transition.Child
           as={Fragment}
@@ -31,10 +33,11 @@ export default function Modal({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+          <div className="fixed inset-0 bg-black  bg-opacity-35 transition-opacity" />
         </Transition.Child>
         <Dialog.Panel
           className={clsx(
+            'z-[1]',
             !className
               ? 'relative transform overflow-hidden rounded-lg bg-gray shadow-xl transition-all p-7 mx-auto sm:my-10 sm:w-full sm:max-w-2xl'
               : className,
