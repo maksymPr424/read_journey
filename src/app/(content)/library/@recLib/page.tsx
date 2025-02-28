@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { queryClient } from '@/app/providers';
 import RecommendedListItem from '@/app/components/recommended-list-item';
@@ -9,11 +9,12 @@ import { FiltersFormPropsType } from '@/app/components/filters-form';
 import CustomIcon from '@/app/components/custom-icon';
 import { useEffect } from 'react';
 import { getRecommended, RecommendCredentialsInnerData } from '@/lib/requests';
+import Loading from '../../loading';
 
 export default function RecLib() {
   const router = useRouter();
 
-  const { data } = useSuspenseQuery({
+  const { data, status } = useQuery({
     queryKey: ['recommend'],
     queryFn: () =>
       getRecommended({ title: '', author: '', page: 1, limit: 10 }),
@@ -27,6 +28,10 @@ export default function RecLib() {
       router.push('/login');
     }
   }, [router, data]);
+
+  if (status === 'pending') {
+    return <Loading />;
+  }
 
   console.log(data.results);
 

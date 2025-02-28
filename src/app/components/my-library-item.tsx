@@ -2,11 +2,17 @@
 
 import { ButtonHTMLAttributes } from 'react';
 import CustomImage from './custom-image';
-import { useRouter } from 'next/navigation';
 import CustomIcon from './custom-icon';
 import { useMutation } from '@tanstack/react-query';
 import { queryClient } from '../providers';
-import { delateBook, deleteResponseCred, LibraryBookCredentials, RecommendCredentialsInnerData } from '@/lib/requests';
+import {
+  currentBook,
+  delateBook,
+  deleteResponseCred,
+  LibraryBookCredentials,
+  RecommendCredentialsInnerData,
+} from '@/lib/requests';
+import { useRouter } from 'next/navigation';
 
 export interface RecommendedListItemProps
   extends Partial<ButtonHTMLAttributes<HTMLButtonElement>> {
@@ -17,7 +23,7 @@ export default function MyLibraryItem({ data }: RecommendedListItemProps) {
   const { _id, imageUrl, author, title } = data;
   const router = useRouter();
 
-  const mutate = useMutation({
+  const mutateDel = useMutation({
     mutationFn: delateBook,
     onSuccess: (data: deleteResponseCred) => {
       console.log(data);
@@ -34,7 +40,19 @@ export default function MyLibraryItem({ data }: RecommendedListItemProps) {
     },
   });
 
+  const mutateAdd = useMutation({
+    mutationFn: currentBook,
+    onSuccess: (data: LibraryBookCredentials) => {
+      console.log(data);
+      queryClient.setQueryData(['book'], data);
+    },
+    onError: (error) => {
+      console.error('Error adding book:', error);
+    },
+  });
+
   const handleGoBook = () => {
+    mutateAdd.mutate({ id: _id });
     router.push('/reading');
   };
 
@@ -49,7 +67,7 @@ export default function MyLibraryItem({ data }: RecommendedListItemProps) {
 
   const handleDelateBook = (e: React.MouseEvent) => {
     e.stopPropagation();
-    mutate.mutate({ _id });
+    mutateDel.mutate({ _id });
   };
 
   return (
@@ -73,7 +91,7 @@ export default function MyLibraryItem({ data }: RecommendedListItemProps) {
             onClick={handleDelateBook}
             className="p-[7px] rounded-full border border-red-600/[55%] bg-red-700/[10%] flex items-center justify-center relative z-[1]"
           >
-            <CustomIcon id="icon-trash" className="w-[14px] h-[14px]" />
+            <CustomIcon id="icon-trash" className="w-[14px] h-[14px] stroke-red-600" />
           </a>
         </div>
       </div>

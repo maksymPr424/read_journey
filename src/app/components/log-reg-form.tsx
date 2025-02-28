@@ -41,6 +41,7 @@ export default function LogRegForm({ typeForm }: LogRegFormProps) {
     onSuccess: (data) => {
       queryClient.setQueryData(['user'], data);
       // console.log(queryClient.getQueryData(['user']));
+      console.log('push');
 
       router.push('/recommended');
     },

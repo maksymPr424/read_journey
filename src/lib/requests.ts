@@ -29,6 +29,16 @@ export interface RecommendCredentials {
   perPage: number;
 }
 
+export interface ProgressItem {
+  startPage: number;
+  startReading: string;
+  finishPage?: number;
+  finishReading?: string;
+  speed?: number;
+  status: string;
+  _id: string;
+}
+
 export interface LibraryBookCredentials {
   _id: string;
   title: string;
@@ -37,7 +47,7 @@ export interface LibraryBookCredentials {
   totalPages: number;
   status: string;
   owner: string;
-  // progress: Array<any>;
+  progress: ProgressItem[] | [];
 }
 
 export interface addBookProps {
@@ -56,6 +66,11 @@ export interface recommendProps {
 export interface deleteResponseCred {
   message: string;
   id: string;
+}
+
+export interface startReadingProps {
+  id: string;
+  page: number;
 }
 
 export async function getCurrent() {
@@ -111,5 +126,37 @@ export async function delateBook({
     `books/remove/${_id}`,
   );
 
+  return res.data;
+}
+
+export async function startReading({ id, page }: startReadingProps) {
+  console.log(id);
+
+  const res = await api.post('books/reading/start', { id, page });
+  return res.data;
+}
+
+export async function finishReading({ id, page }: startReadingProps) {
+  const book = await api.post('books/reading/finish', { id, page });
+  return book.data;
+}
+
+export async function currentBook({ id }: { id: string }) {
+  console.log(id);
+
+  const book = await api(`books/${id}`);
+  return book.data;
+}
+
+export async function delateReadingSession({
+  bookId,
+  readingId,
+}: {
+  bookId: string;
+  readingId: string;
+}) {
+  const res = await api.delete('books/reading', {
+    params: { bookId, readingId },
+  });
   return res.data;
 }

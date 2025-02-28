@@ -17,6 +17,7 @@ export default function Header() {
   const router = useRouter();
 
   const pathname = usePathname();
+
   const handleOpenMenu = () => {
     setIsOpen(true);
   };
@@ -44,7 +45,9 @@ export default function Header() {
   return (
     <header className="flex items-center justify-between p-5 bg-lightDark rounded-2xl mb-[10px] max-w-[335px] mx-auto">
       <Link href="/">
-        <CustomIcon id="icon-Logo" className="w-[42px] h-[17px]" />
+        <button onClick={() => handleCloseMenu()}>
+          <CustomIcon id="icon-Logo" className="w-[42px] h-[17px]" />
+        </button>
       </Link>
       <div className="flex items-center gap-[10px]">
         <RoundedContent className="w-[35px] h-[35px] border-lightGray bg-gray text-base font-bolt">
@@ -74,7 +77,7 @@ export default function Header() {
                     'relative before:content-[""] before:absolute before:bottom-[-4] before:w-full before:h-[3px] before:bg-blue before:rounded-lg',
                 )}
               >
-                Home
+                <button onClick={() => handleCloseMenu()}>Home</button>
               </Link>
             </li>
             <li>
@@ -89,7 +92,7 @@ export default function Header() {
                     'relative before:content-[""] before:absolute before:bottom-[-4] before:w-full before:h-[3px] before:bg-blue before:rounded-lg',
                 )}
               >
-                My library
+                <button onClick={() => handleCloseMenu()}>My library</button>
               </Link>
             </li>
           </ul>

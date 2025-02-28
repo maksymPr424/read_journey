@@ -36,3 +36,19 @@ export const addToLibraryValidationSchema = Yup.object({
     .min(50, 'Total pages must be at least 50')
     .required('Total pages is required'),
 });
+
+export function getReadingValidationSchema({
+  currentPage = 1,
+  totalPages,
+}: {
+  currentPage: number;
+  totalPages: number;
+}) {
+  return Yup.object({
+    page: Yup.number()
+      .min(currentPage, `Page must be at least ${currentPage}`)
+      .max(totalPages, `Page must be at most ${totalPages}`)
+      .integer('Start page must be an integer')
+      .required('Start page is required'),
+  });
+}

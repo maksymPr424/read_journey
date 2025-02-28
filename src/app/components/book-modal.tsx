@@ -13,6 +13,7 @@ import {
   getOwnBook,
   LibraryBookCredentials,
 } from '@/lib/requests';
+import InformModal from './inform-modal';
 
 export interface BookModalProps {
   isOpen: boolean;
@@ -34,7 +35,6 @@ export default function BookModal({
   _id,
 }: BookModalProps) {
   const [successAdd, setSuccessAdd] = useState(false);
-  const [alreadyAdd, setAlreadyAdd] = useState(false);
 
   const handleCloseInfoModal = () => {
     setSuccessAdd(false);
@@ -57,12 +57,7 @@ export default function BookModal({
 
       const updatedBooks = [...currentBooks, data];
       queryClient.setQueryData(['own'], updatedBooks);
-
       handleOpenInfoModal();
-
-      console.log(
-        queryClient.getQueryData<LibraryBookCredentials[]>(['books']),
-      );
     },
     onError: () => {
       alert('Error!');
@@ -70,21 +65,23 @@ export default function BookModal({
   });
 
   const handleAddToLibrary = () => {
-    const isAlreadyAdd = data.find(
-      (book: LibraryBookCredentials) => book._id === _id,
+    const alreadyAdd = data.filter(
+      (book: LibraryBookCredentials) =>
+        book.title === title && book.author === author,
     );
 
-    console.log(isAlreadyAdd);
+    console.log(data);
 
-    if (isAlreadyAdd !== undefined) {
+    if (alreadyAdd.length !== 0) {
       console.log('Це ж було вже');
 
-      setAlreadyAdd(true);
+      handleCloseMenu();
       handleOpenInfoModal();
       return;
     }
 
-    setAlreadyAdd(false);
+    console.log('Цього ж не було ще');
+
     mutationLib.mutate({ _id });
     console.log(_id);
     handleCloseMenu();
@@ -117,31 +114,18 @@ export default function BookModal({
           <TransButton onClick={handleAddToLibrary}>Add to library</TransButton>
         </div>
       </Modal>
-      <Modal
-        show={successAdd}
-        onClose={handleCloseInfoModal}
-        className="mx-auto max-[375px]:w-[280px] min-[375px]:w-[335px] bg-gray rounded-xl pt-4 px-3 pb-[60px]"
+      <InformModal
+        isOpenInfoModal={successAdd}
+        handleCloseInfoModal={handleCloseInfoModal}
+        Image={LikeImg}
+        Title="Good job"
       >
-        <button
-          onClick={handleCloseInfoModal}
-          className="max-w-max ml-auto mb-[2px] text-right block"
-        >
-          <CustomIcon id="icon-menu-open" className="w-7 h-7" />
-        </button>
-        <div className="mt-[22px] text-center mx-auto">
-          <CustomImage
-            src={LikeImg}
-            alt="Success image"
-            className="w-13 h-13"
-          />
-          <h3 className="text-bolt text-lg mb-[10px]  mt-5">Good job</h3>
-          <p className="text-lightGray text-sm">
-            Your book is now in{' '}
-            <span className="text-foreground">the library!</span> The joy knows
-            no bounds and now you can start your training
-          </p>
-        </div>
-      </Modal>
+        <>
+          Your book is now in{' '}
+          <span className="text-foreground">the library!</span> The joy knows no
+          bounds and now you can start your training
+        </>
+      </InformModal>
     </>
   );
 }

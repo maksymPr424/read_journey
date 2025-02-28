@@ -1,7 +1,11 @@
+// WF2afa13
+// wafage22FQ
+
 import { LogRegValuesProps } from '@/app/components/log-reg-form';
-import { setBearerToken } from './api';
+import { getCurrentToken, setBearerToken } from './api';
 import { redirect } from 'next/navigation';
 import axios from 'axios';
+// import { queryClient } from '@/app/providers';
 
 export async function logOut() {
   try {
@@ -9,6 +13,7 @@ export async function logOut() {
   } finally {
     console.log('Logging out...');
 
+    // queryClient.clear();
     setBearerToken('');
     redirect('/login');
   }
@@ -25,4 +30,17 @@ export async function loginUser(data: LogRegValuesProps) {
   setBearerToken(user.data.token);
 
   return user.data;
+}
+
+export async function refreshUser() {
+  console.log(getCurrentToken() + ': from refresh');
+
+  try {
+    const tokens = await axios('users/current/refresh');
+    setBearerToken(tokens.data.token);
+    console.log(tokens);
+    return tokens.data;
+  } catch (error) {
+    console.log(error);
+  }
 }
