@@ -13,6 +13,7 @@ import {
   RecommendCredentialsInnerData,
 } from '@/lib/requests';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 export interface RecommendedListItemProps
   extends Partial<ButtonHTMLAttributes<HTMLButtonElement>> {
@@ -25,7 +26,7 @@ export default function MyLibraryItem({ data }: RecommendedListItemProps) {
 
   const mutateDel = useMutation({
     mutationFn: delateBook,
-    onSuccess: (data: deleteResponseCred) => {
+    onSuccess(data: deleteResponseCred) {
       console.log(data);
       const previousBooks =
         (queryClient.getQueryData(['own']) as LibraryBookCredentials[]) || [];
@@ -34,26 +35,27 @@ export default function MyLibraryItem({ data }: RecommendedListItemProps) {
         ['own'],
         previousBooks.filter((book) => book._id !== data.id),
       );
+      toast.success('Successful deleted book');
     },
-    onError: (error) => {
-      console.error('Error deleting book:', error);
+    onError() {
+      toast.error('Error deleting book, please retry');
     },
   });
 
   const mutateAdd = useMutation({
     mutationFn: currentBook,
-    onSuccess: (data: LibraryBookCredentials) => {
-      console.log(data);
+    onSuccess(data: LibraryBookCredentials) {
       queryClient.setQueryData(['book'], data);
+      router.push('/reading');
     },
-    onError: (error) => {
-      console.error('Error adding book:', error);
+    onError() {
+      toast.error('Error getting a book, please retry');
     },
   });
 
   const handleGoBook = () => {
+    toast.info('Go to reading...')
     mutateAdd.mutate({ id: _id });
-    router.push('/reading');
   };
 
   const getTitle = () => {
@@ -91,7 +93,10 @@ export default function MyLibraryItem({ data }: RecommendedListItemProps) {
             onClick={handleDelateBook}
             className="p-[7px] rounded-full border border-red-600/[55%] bg-red-700/[10%] flex items-center justify-center relative z-[1]"
           >
-            <CustomIcon id="icon-trash" className="w-[14px] h-[14px] stroke-red-600" />
+            <CustomIcon
+              id="icon-trash"
+              className="w-[14px] h-[14px] stroke-red-600"
+            />
           </a>
         </div>
       </div>

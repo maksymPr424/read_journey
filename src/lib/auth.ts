@@ -2,9 +2,10 @@
 // wafage22FQ
 
 import { LogRegValuesProps } from '@/app/components/log-reg-form';
-import { getCurrentToken, setBearerToken } from './api';
+import { setBearerToken } from './api';
 import { redirect } from 'next/navigation';
 import axios from 'axios';
+import { queryClient } from '@/app/providers';
 // import { queryClient } from '@/app/providers';
 
 export async function logOut() {
@@ -13,7 +14,7 @@ export async function logOut() {
   } finally {
     console.log('Logging out...');
 
-    // queryClient.clear();
+    queryClient.clear();
     setBearerToken('');
     redirect('/login');
   }
@@ -33,7 +34,7 @@ export async function loginUser(data: LogRegValuesProps) {
 }
 
 export async function refreshUser() {
-  console.log(getCurrentToken() + ': from refresh');
+  // console.log(getCurrentToken() + ': from refresh');
 
   try {
     const tokens = await axios('users/current/refresh');

@@ -8,7 +8,10 @@ import clsx from 'clsx';
 import RecommendedListItem from './recommended-list-item';
 import { FiltersFormPropsType } from './filters-form';
 import MyLibraryItem from './my-library-item';
-import { LibraryBookCredentials, RecommendCredentialsInnerData } from '@/lib/requests';
+import {
+  LibraryBookCredentials,
+  RecommendCredentialsInnerData,
+} from '@/lib/requests';
 
 export interface SliderBooksProps {
   data: Array<LibraryBookCredentials | RecommendCredentialsInnerData>;
@@ -115,7 +118,12 @@ export default function SliderBooks({
       </div>
       <div className="max-w-[100%]">
         <div ref={emblaRef} className="overflow-hidden">
-          <ul className="flex gap-5">
+          <ul
+            className={clsx(
+              'flex  gap-5 md:gap-6 md:max-h-[560px]',
+              libraryItem ? '' : 'md:flex-wrap md:flex-col',
+            )}
+          >
             {data.map(
               (
                 item: LibraryBookCredentials | RecommendCredentialsInnerData,

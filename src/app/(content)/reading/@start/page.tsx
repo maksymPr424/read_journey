@@ -40,25 +40,28 @@ export default function Start() {
     return <h2>Loading book...</h2>;
   }
 
-  const currentPage =
-    data?.progress?.[data.progress.length - 1]?.finishPage ||
-    data?.progress?.[data.progress.length - 1]?.startPage ||
-    1;
+  const getCurrentPage = () => {
+    return (
+      data?.progress?.[data.progress.length - 1]?.finishPage ||
+      data?.progress?.[data.progress.length - 1]?.startPage ||
+      1
+    );
+  };
 
   return (
-    <section className="bg-lightDark rounded-[30px] px-5 pt-5 pb-10">
+    <section className="bg-lightDark rounded-[30px] px-5 pt-5 pb-10 md:flex md:justify-between md:h-[336px]">
       {isStartedReading ? (
         <ReadingForm
           type={ReadingFormType.STOP}
           id={data!._id}
-          currentPageNum={currentPage}
+          currentPageNum={getCurrentPage()}
           totalPageNum={data!.totalPages}
         />
       ) : (
         <ReadingForm
           type={ReadingFormType.START}
           id={data!._id}
-          currentPageNum={currentPage}
+          currentPageNum={getCurrentPage()}
           totalPageNum={data!.totalPages}
         />
       )}

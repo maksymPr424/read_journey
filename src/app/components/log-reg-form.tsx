@@ -11,6 +11,7 @@ import {
 } from '@/utils/validationSchemas';
 import { queryClient } from '../providers';
 import { loginUser, registerUser } from '@/lib/auth';
+import { toast } from 'sonner';
 
 export interface LogRegFormProps {
   typeForm: string;
@@ -40,13 +41,12 @@ export default function LogRegForm({ typeForm }: LogRegFormProps) {
     mutationFn: typeForm === 'reg' ? registerUser : loginUser,
     onSuccess: (data) => {
       queryClient.setQueryData(['user'], data);
-      // console.log(queryClient.getQueryData(['user']));
-      console.log('push');
+      toast.success(`Success ${typeForm === 'reg' ? 'registration' : 'login'}`);
 
       router.push('/recommended');
     },
     onError: () => {
-      alert('Error!');
+      toast.success('Something went wrong');
     },
   });
 
@@ -54,6 +54,7 @@ export default function LogRegForm({ typeForm }: LogRegFormProps) {
     values: LogRegValuesProps,
     actions: FormikHelpers<LogRegValuesProps>,
   ) => {
+    toast.info(`Pending ${typeForm === 'reg' ? 'registration' : 'login'}`);
     mutation.mutate(values);
     actions.resetForm();
   };
@@ -71,7 +72,7 @@ export default function LogRegForm({ typeForm }: LogRegFormProps) {
       }
     >
       <Form className="flex flex-col justify-between flex-1">
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 md:gap-[14px]">
           {typeForm === 'reg' && (
             <div className="relative">
               <InputField label="Name" id="name" validate={true} name="name" />
@@ -104,7 +105,7 @@ export default function LogRegForm({ typeForm }: LogRegFormProps) {
             />
           </div>
         </div>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center md:justify-start md:gap-5">
           <LogRegBtn type="submit">
             {typeForm === 'reg' ? 'Registration' : 'Log in'}
           </LogRegBtn>

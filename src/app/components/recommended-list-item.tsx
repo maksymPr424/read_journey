@@ -1,9 +1,14 @@
+'use client';
+
 import { ButtonHTMLAttributes, useState } from 'react';
 import CustomImage from './custom-image';
 import { FiltersFormPropsType } from './filters-form';
 import clsx from 'clsx';
 import BookModal from './book-modal';
-import { LibraryBookCredentials, RecommendCredentialsInnerData } from '@/lib/requests';
+import {
+  LibraryBookCredentials,
+  RecommendCredentialsInnerData,
+} from '@/lib/requests';
 
 export interface RecommendedListItemProps
   extends Partial<ButtonHTMLAttributes<HTMLButtonElement>> {
@@ -33,8 +38,10 @@ export default function RecommendedListItem({
     const lengthTitle = title.length;
 
     if (isRec) {
-      if (lengthTitle > 23) {
-        return title.slice(0, 20) + '...';
+      if (lengthTitle > 20) {
+        return title.slice(0, 17) + '...';
+      } else if (title.toUpperCase() === title) {
+        return title.slice(0, 13) + '...';
       }
       return title;
     } else {

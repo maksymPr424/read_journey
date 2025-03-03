@@ -9,6 +9,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { persistQueryClient } from '@tanstack/react-query-persist-client';
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
 import localForage from 'localforage';
+import { Toaster } from 'sonner';
 
 const queryClientConfig: QueryClientConfig = {
   defaultOptions: {
@@ -45,9 +46,12 @@ export default function QueryProvider({
   children: React.ReactNode;
 }) {
   return (
-    <QueryClientProvider client={queryClient}>
-      {children}
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+    <>
+      <QueryClientProvider client={queryClient}>
+        {children}
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+      <Toaster position="top-right" duration={3000} visibleToasts={1} />
+    </>
   );
 }

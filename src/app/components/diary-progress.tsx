@@ -7,9 +7,11 @@ import { delateReadingSession, ProgressItem } from '@/lib/requests';
 import { queryClient } from '../providers';
 import { useState } from 'react';
 import { LibraryBookCredentials } from '@/lib/requests';
+import { toast } from 'sonner';
+import NoProgress from './no-progress';
 
 export interface DiaryProgressProps {
-  progress: ProgressItem[]; 
+  progress: ProgressItem[];
   totalPages: number;
   bookId: string;
 }
@@ -26,6 +28,10 @@ export default function DiaryProgress({
     onSuccess(data: LibraryBookCredentials) {
       queryClient.setQueryData(['book'], data);
       setProgressData(data.progress);
+      toast.success('Successful deleted reading session');
+    },
+    onError() {
+      toast.error('Error delate reading session, please retry');
     },
   });
 
@@ -50,6 +56,8 @@ export default function DiaryProgress({
   };
 
   const handleDelateSession = (id: string) => {
+    toast.info('Deleting reading session...');
+
     if (progressData[progressData.length - 1].finishPage === totalPages) {
       return;
     }
@@ -59,6 +67,10 @@ export default function DiaryProgress({
   const getReadPages = (finish: number, start: number) => {
     return finish - start;
   };
+
+  if (progressData.length === 0) {
+    return <NoProgress />;
+  }
 
   return (
     <ul className="flex flex-col-reverse max-h-[211px] overflow-auto custom-scrollbar pr-2">
@@ -74,21 +86,23 @@ export default function DiaryProgress({
           >
             <span
               className={clsx(
-                'relative bg-foreground rounded-sm w-4 h-4',
+                'relative bg-foreground rounded-sm w-4 h-4 md:w-5 md:h-5',
                 progress.length - 1 === index
                   ? 'bg-foreground'
                   : 'bg-lightGray',
               )}
             >
-              <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-background rounded-xs w-2 h-2"></span>
+              <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-background rounded-xs w-2 h-2 md:w-3 md:h-3"></span>
             </span>
             <div className="flex justify-between items-baseline flex-1">
               <div>
-                <p>{getDate(session.finishReading ?? session.startReading)}</p>
-                <p className="text-sm mt-4">
+                <p className="md:text-base text-bolt">
+                  {getDate(session.finishReading ?? session.startReading)}
+                </p>
+                <p className="text-sm mt-4 md:text-xl">
                   {((100 / totalPages) * (session.finishPage || 0)).toFixed(1)}%
                 </p>
-                <p className="text-lightGray text-[10px] mt-1">
+                <p className="text-lightGray text-[10px] mt-1 md:text-xs">
                   <span>
                     {session.finishReading && session.startReading
                       ? getDateDifference(
@@ -102,7 +116,7 @@ export default function DiaryProgress({
               </div>
               <div className="text-right flex items-center">
                 <div className="mr-[6px]">
-                  <p className="text-xs text-lightGray">
+                  <p className="text-xs md:text-sm text-lightGray">
                     <span>
                       {session.finishPage && session.startPage
                         ? getReadPages(session.finishPage, session.startPage)
@@ -111,9 +125,12 @@ export default function DiaryProgress({
                     pages
                   </p>
                   <div className="mt-4 flex justify-end ">
-                    <CustomIcon id="icon-block" className="w-[43px] h-[18px]" />
+                    <CustomIcon
+                      id="icon-block"
+                      className="w-[43px] h-[18px] md:w-[59px] md:h-6"
+                    />
                   </div>
-                  <p className="mt-[7px] text-[10px] text-lightGray ">
+                  <p className="mt-[7px] text-[10px] md:text-xs text-lightGray md:max-w-[59px]">
                     <span>{session.speed || 0}</span> pages per hour
                   </p>
                 </div>

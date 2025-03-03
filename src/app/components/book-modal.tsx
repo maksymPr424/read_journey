@@ -14,6 +14,7 @@ import {
   LibraryBookCredentials,
 } from '@/lib/requests';
 import InformModal from './inform-modal';
+import { toast } from 'sonner';
 
 export interface BookModalProps {
   isOpen: boolean;
@@ -60,17 +61,17 @@ export default function BookModal({
       handleOpenInfoModal();
     },
     onError: () => {
-      alert('Error!');
+      toast.error('Error adding book, please retry');
     },
   });
 
   const handleAddToLibrary = () => {
+    toast.info('Adding a book...');
+
     const alreadyAdd = data.filter(
       (book: LibraryBookCredentials) =>
         book.title === title && book.author === author,
     );
-
-    console.log(data);
 
     if (alreadyAdd.length !== 0) {
       console.log('Це ж було вже');
@@ -79,8 +80,6 @@ export default function BookModal({
       handleOpenInfoModal();
       return;
     }
-
-    console.log('Цього ж не було ще');
 
     mutationLib.mutate({ _id });
     console.log(_id);

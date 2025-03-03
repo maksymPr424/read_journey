@@ -6,10 +6,14 @@ import TransButton from './trans-button';
 import { useMutation } from '@tanstack/react-query';
 import { queryClient } from '../providers';
 import { useState } from 'react';
+import { addToLibraryValidationSchema } from '@/utils/validationSchemas';
 import {
-  addToLibraryValidationSchema,
-} from '@/utils/validationSchemas';
-import { addBook, getRecommended, LibraryBookCredentials, RecommendCredentials } from '@/lib/requests';
+  addBook,
+  getRecommended,
+  LibraryBookCredentials,
+  RecommendCredentials,
+} from '@/lib/requests';
+import { toast } from 'sonner';
 
 const RecInitialValues = {
   title: '',
@@ -53,7 +57,6 @@ export default function FiltersForm({ type }: FiltersFormProps) {
   const mutationRec = useMutation({
     mutationFn: getRecommended,
     onSuccess: (data: RecommendCredentials) => {
-      
       queryClient.setQueryData(['recommend'], data);
 
       setRecommendedInfo({
@@ -63,7 +66,7 @@ export default function FiltersForm({ type }: FiltersFormProps) {
       });
     },
     onError: () => {
-      alert('Error!');
+      toast.error('Error getting a recommended books, please retry');
     },
   });
 
@@ -104,8 +107,8 @@ export default function FiltersForm({ type }: FiltersFormProps) {
   };
 
   return (
-    <>
-      <p className="text-xs ml-[14px] mb-2">Filters:</p>
+    <div>
+      <p className="text-xs ml-[14px] mb-2 md:text-sm">Filters:</p>
       <Formik
         initialValues={initialValues}
         onSubmit={handleSubmitFilters}
@@ -114,7 +117,7 @@ export default function FiltersForm({ type }: FiltersFormProps) {
         }
       >
         <Form className="flex flex-col gap-5">
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 md:gap-2">
             <div className="relative">
               <InputField
                 label="Book title"
@@ -159,10 +162,12 @@ export default function FiltersForm({ type }: FiltersFormProps) {
             )}
           </div>
           <div className="max-w-max">
-            <TransButton type="submit">To apply</TransButton>
+            <TransButton type="submit">
+              {type === FiltersFormPropsType.LIBRARY ? 'Add book' : 'To apply'}
+            </TransButton>
           </div>
         </Form>
       </Formik>
-    </>
+    </div>
   );
 }

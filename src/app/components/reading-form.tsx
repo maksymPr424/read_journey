@@ -49,8 +49,13 @@ export default function ReadingForm({
   };
 
   useEffect(() => {
+    console.log(currentPageNum);
+    console.log(totalPageNum);
+    
     if (currentPageNum === totalPageNum) {
       handleOpenMenu();
+    } else {
+      handleCloseModal()
     }
     setCurrentPage(currentPageNum);
   }, [currentPageNum, totalPageNum]);
@@ -98,7 +103,7 @@ export default function ReadingForm({
       >
         <Form className="mb-10">
           <div className="mb-5">
-            <label htmlFor="page" className="text-[10px] ml-[14px] mb-2">
+            <label htmlFor="page" className="text-[10px] md:text-sm ml-[14px] mb-2 ">
               {type === ReadingFormType.START ? 'Start page:' : 'Stop page:'}
             </label>
             <div className="relative">

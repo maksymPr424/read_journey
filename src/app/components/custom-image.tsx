@@ -31,11 +31,7 @@ export default function CustomImage({
         />
       ) : (
         <div>
-          <Image
-            src={BaseBook}
-            alt="Book icon"
-            className='w-20 h-20'
-          />
+          <Image src={BaseBook} alt="Book icon" className="w-20 h-20" />
         </div>
       )}
     </div>

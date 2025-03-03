@@ -17,7 +17,7 @@ export default function RecommendedList() {
   const { data } = useSuspenseQuery({
     queryKey: ['recommend'],
     queryFn: () =>
-      getRecommended({ title: '', author: '', page: 1, limit: 10 }),
+      getRecommended({ title: '', author: '', page: 1, limit: 30 }),
     staleTime: 60 * 60 * 1000,
   });
 

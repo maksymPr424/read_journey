@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
-      <body className={`${font.className} p-[20px] antialiased`}>
+      <body className={`${font.className} antialiased`}>
         <QueryProvider>
           <ContentProvider>{children}</ContentProvider>
         </QueryProvider>

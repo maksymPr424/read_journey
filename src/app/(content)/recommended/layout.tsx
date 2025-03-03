@@ -1,13 +1,13 @@
 export interface LayoutProps {
   filters: React.ReactNode;
-  children: React.ReactNode;
+  recommended: React.ReactNode;
 }
 
-export default function Layout({ filters, children }: LayoutProps) {
+export default function Layout({ filters, recommended }: LayoutProps) {
   return (
-    <section>
+    <>
       {filters}
-      {children}
-    </section>
+      {recommended}
+    </>
   );
 }

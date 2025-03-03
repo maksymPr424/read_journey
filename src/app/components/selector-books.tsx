@@ -21,10 +21,6 @@ export default function SelectorBooks({
     staleTime: 60 * 60 * 1000,
   });
 
-  useEffect(() => {
-    sendSelector(data);
-  }, [data, sendSelector]);
-  
   const [selected, setSelected] = useState(data);
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
@@ -49,11 +45,13 @@ export default function SelectorBooks({
   };
 
   useEffect(() => {
+    sendSelector(data);
+
     document.addEventListener('click', checkDropClick);
     return () => {
       document.removeEventListener('click', checkDropClick);
     };
-  }, []);
+  }, [data, sendSelector]);
 
   const handleChoice = (item: string) => {
     setSelected(item);

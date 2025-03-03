@@ -7,9 +7,9 @@ import StartWorkout from '@/app/components/start-workout';
 
 export default function Filters() {
   return (
-    <div className="rounded-[30px] bg-lightDark overflow-hidden p-5 pb-10 flex flex-col gap-5">
+    <section className="rounded-[30px] bg-lightDark overflow-hidden p-5 pb-10 flex flex-col gap-5 md:flex-row md:gap-8">
       <FiltersForm type={FiltersFormPropsType.RECOMMENDED} />
       <StartWorkout />
-    </div>
+    </section>
   );
 }

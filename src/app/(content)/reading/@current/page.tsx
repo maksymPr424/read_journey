@@ -6,6 +6,7 @@ import { LibraryBookCredentials } from '@/lib/requests';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import Loading from '../../loading';
 
 export default function Current() {
   const router = useRouter();
@@ -25,7 +26,7 @@ export default function Current() {
   }, [router, status, data]);
 
   if (status === 'pending') {
-    return <h2>Loading current...</h2>;
+    return <Loading />;
   }
 
   const getStatus = () => {
@@ -44,6 +45,7 @@ export default function Current() {
         title={data?.title || 'Unknown Title'}
         author={data?.author || 'Unknown Author'}
         status={getStatus()}
+        timeLeftToRead={data?.timeLeftToRead}
       />
     </section>
   );

@@ -58,7 +58,7 @@ export default function InputField({
       {label && (
         <label
           htmlFor={id}
-          className="whitespace-nowrap text-xs text-lightGray p-3.5 pr-0"
+          className="whitespace-nowrap text-xs md:text-sm text-lightGray p-3.5 pr-0"
         >
           {label}:
         </label>
@@ -67,7 +67,7 @@ export default function InputField({
         {...field}
         {...rest}
         id={id}
-        className="p-3.5 pr-9 text-xs rounded-xl bg-gray flex-1 focus:outline-none max-[375px]:w-[100px] min-[375px]:w-full"
+        className="p-3.5 pr-9 text-xs md:text-sm rounded-xl bg-gray flex-1 focus:outline-none max-[375px]:w-[100px] min-[375px]:w-full"
         autoComplete="off"
         type={getInputType()}
         onFocus={() => setIsFocused(true)}

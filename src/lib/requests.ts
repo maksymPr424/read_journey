@@ -39,6 +39,12 @@ export interface ProgressItem {
   _id: string;
 }
 
+export interface TimeLeftToReadObject {
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
+
 export interface LibraryBookCredentials {
   _id: string;
   title: string;
@@ -48,6 +54,7 @@ export interface LibraryBookCredentials {
   status: string;
   owner: string;
   progress: ProgressItem[] | [];
+  timeLeftToRead?: TimeLeftToReadObject;
 }
 
 export interface addBookProps {

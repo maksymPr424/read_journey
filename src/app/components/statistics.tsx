@@ -16,8 +16,8 @@ export default function Statistics({ totalPages, lastPage }: StatisticsProps) {
       <div className="mt-[21px] flex items-baseline gap-[15px]">
         <span className="w-[14px] h-[14px] bg-green rounded-sm"></span>
         <div>
-          <p className='text-sm mb-1'>{getPercent().toFixed(2)}%</p>
-          <p className='text-lightGray text-[10px]'>{lastPage} pages read</p>
+          <p className='text-sm md:text-xl mb-1'>{getPercent().toFixed(2)}%</p>
+          <p className='text-lightGray text-[10px] md:text-xs'>{lastPage} pages read</p>
         </div>
       </div>
     </div>

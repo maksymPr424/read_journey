@@ -33,7 +33,7 @@ const CircularProgress = ({ progress }: { progress: number }) => {
         y="60"
         textAnchor="middle"
         dy="8"
-        className="text-lg font-bold fill-current text-foreground"
+        className="text-lg md:text-xl font-bold fill-current text-foreground"
         transform="rotate(90 60 60)"
       >
         100%

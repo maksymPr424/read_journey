@@ -10,6 +10,7 @@ import CustomIcon from '@/app/components/custom-icon';
 import { useEffect } from 'react';
 import { getRecommended, RecommendCredentialsInnerData } from '@/lib/requests';
 import Loading from '../../loading';
+import { toast } from 'sonner';
 
 export default function RecLib() {
   const router = useRouter();
@@ -17,28 +18,26 @@ export default function RecLib() {
   const { data, status } = useQuery({
     queryKey: ['recommend'],
     queryFn: () =>
-      getRecommended({ title: '', author: '', page: 1, limit: 10 }),
+      getRecommended({ title: '', author: '', page: 1, limit: 30 }),
     staleTime: Infinity,
   });
 
   useEffect(() => {
-    if (data === null) {
-      console.log('Redirecting to login');
+    if (status === 'error') {
+      toast.error('Error refreshing session, please sing in');
       queryClient.clear();
       router.push('/login');
     }
-  }, [router, data]);
+  }, [router, status]);
 
   if (status === 'pending') {
     return <Loading />;
   }
 
-  console.log(data.results);
-
   return (
-    <div className="rounded-[30px] bg-gray p-5">
-      <h3 className="mb-[14px]">Recommended books</h3>
-      <ul className="flex justify-between mb-[17px]">
+    <div className="rounded-[30px] bg-gray p-5 md:pt[26px] md:pb-[27px] md:px-5 md:w-[313px]">
+      <h3 className="mb-[14px] md:text-bolt md:text-xl">Recommended books</h3>
+      <ul className="flex justify-between mb-[17px] pr-5">
         {data.results.map(
           (item: RecommendCredentialsInnerData, index: number) => {
             if (index > 2) return null;
@@ -55,7 +54,10 @@ export default function RecLib() {
         )}
       </ul>
       <div className="flex justify-between items-center">
-        <Link href="/recommended" className="text-lightGray text-sm underline">
+        <Link
+          href="/recommended"
+          className="text-lightGray text-sm underline hover:text-foreground"
+        >
           Home
         </Link>
         <Link href="/recommended">

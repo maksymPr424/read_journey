@@ -11,6 +11,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { refreshUser } from '@/lib/auth';
 import { setBearerToken } from '@/lib/api';
 import { UserCredentials } from '@/lib/requests';
+import { toast } from 'sonner';
 
 export interface LayoutProps {
   children: React.ReactNode;
@@ -36,6 +37,7 @@ export default function Layout({ children }: LayoutProps) {
       }
 
       if (!hasRedirected.current) {
+        toast.success('Success refresh session');
         router.push('/recommended');
         hasRedirected.current = true;
       }
@@ -45,6 +47,7 @@ export default function Layout({ children }: LayoutProps) {
       queryClient.clear();
 
       if (!hasRedirected.current) {
+        toast.error('Something went wrong');
         router.push('/login');
         hasRedirected.current = true;
       }
@@ -80,22 +83,29 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <QueryProvider>
-      <section className="m-auto m:max-w-[375px] p-5">
-        <div className="rounded-[30px] bg-lightDark overflow-hidden p-5 pb-10 h-[470px] max-[375px]:h-[500px] flex flex-col">
-          <Link href="/">
-            <CustomIcon
-              id="icon-Logo"
-              className="w-[42px] h-[17px] mb-[40px]"
-            />
-          </Link>
+      <section className="m-auto p-5 m:max-w-[375px] md:flex md:flex-col md:h-[100vh] md:p-8">
+        <div className="rounded-[30px] bg-lightDark overflow-hidden p-5 pb-10 h-[470px] max-[375px]:h-[500px] flex flex-col md:flex-grow md:pt-10 md:pl-16">
+          <div className="mb-[40px] md:mb-[157px]">
+            <Link
+              href="/"
+              className="md:flex md:items-center md:gap-1 max-w-max block"
+            >
+              <CustomIcon id="icon-Logo" className="w-[42px] h-[17px]" />
+              <h2 className="hidden md:block uppercase text-lg">
+                read journey
+              </h2>
+            </Link>
+          </div>
 
-          <h1 className="text-[32px] font-bold mb-[20px] mt-0 leading-8">
-            Expand your mind, reading{' '}
-            <span className="text-grayPercent">a book</span>
-          </h1>
-          {children}
+          <div className="md:max-w-[472px] text-start md:max-h-[532px] md:h-[100%] flex flex-col">
+            <h1 className="text-[32px] font-bold mb-5 mt-0 leading-8 md:text-6xl md:mb-10">
+              Expand your mind, reading{' '}
+              <span className="text-grayPercent">a book</span>
+            </h1>
+            {children}
+          </div>
         </div>
-        <div className="mt-4 pt-5 px-10 rounded-[30px] bg-lightDark overflow-hidden">
+        <div className="mt-4 pt-5 px-10 rounded-[30px] bg-lightDark overflow-hidden md:hidden">
           <CustomImage src={phone} alt="Recommended books" className="h-full" />
         </div>
       </section>
