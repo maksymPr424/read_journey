@@ -73,7 +73,7 @@ export default function DiaryProgress({
   }
 
   return (
-    <ul className="flex flex-col-reverse max-h-[211px] overflow-auto custom-scrollbar pr-2">
+    <ul className="flex flex-col-reverse max-h-[211px] xl:max-h-[373px] overflow-auto custom-scrollbar pr-2">
       {progress.map((session, index) => {
         if (session.status === 'active') {
           return null;

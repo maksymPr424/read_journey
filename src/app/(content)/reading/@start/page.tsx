@@ -49,7 +49,7 @@ export default function Start() {
   };
 
   return (
-    <section className="bg-lightDark rounded-[30px] px-5 pt-5 pb-10 md:flex md:justify-between md:h-[336px]">
+    <section className="bg-lightDark rounded-[30px] px-5 pt-5 pb-10 xl:pt-10 md:flex md:justify-between md:h-[336px] xl:flex-col xl:justify-normal xl:gap-0 xl:h-full">
       {isStartedReading ? (
         <ReadingForm
           type={ReadingFormType.STOP}

@@ -36,7 +36,9 @@ export default function RecLib() {
 
   return (
     <div className="rounded-[30px] bg-gray p-5 md:pt[26px] md:pb-[27px] md:px-5 md:w-[313px]">
-      <h3 className="mb-[14px] md:text-bolt md:text-xl">Recommended books</h3>
+      <h3 className="mb-[14px] md:text-bolt md:text-xl ">
+        Recommended books
+      </h3>
       <ul className="flex justify-between mb-[17px] pr-5">
         {data.results.map(
           (item: RecommendCredentialsInnerData, index: number) => {

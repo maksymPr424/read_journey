@@ -39,7 +39,7 @@ export default function Current() {
   };
 
   return (
-    <section className="bg-lightDark rounded-[30px] px-5 py-10">
+    <section className="bg-lightDark rounded-[30px] px-5 py-10 xl:p-10 xl:pb-[53px] xl:h-full">
       <CurrentReadingBook
         imageUrl={data?.imageUrl || ''}
         title={data?.title || 'Unknown Title'}

@@ -78,10 +78,6 @@ export default function FiltersForm({ type }: FiltersFormProps) {
 
       const updatedBooks = [...currentBooks, data];
       queryClient.setQueryData(['books'], updatedBooks);
-
-      console.log(
-        queryClient.getQueryData<LibraryBookCredentials[]>(['books']),
-      );
     },
     onError: () => {
       alert('Error!');
@@ -90,7 +86,6 @@ export default function FiltersForm({ type }: FiltersFormProps) {
 
   const handleSubmitFilters = (values: SubmitValues) => {
     if (type === FiltersFormPropsType.RECOMMENDED) {
-      console.log(123);
 
       mutationRec.mutate({
         ...values,
@@ -98,7 +93,6 @@ export default function FiltersForm({ type }: FiltersFormProps) {
         limit: recommendedInfo.perPage,
       });
     } else {
-      console.log(321);
 
       mutationLib.mutate({
         ...values,
@@ -108,7 +102,12 @@ export default function FiltersForm({ type }: FiltersFormProps) {
 
   return (
     <div>
-      <p className="text-xs ml-[14px] mb-2 md:text-sm">Filters:</p>
+      <p className="text-xs ml-[14px] mb-2 md:text-sm xl:hidden">Filters:</p>
+      <p className="hidden xl:ml-[14px] xl:mb-2 xl:text-sm xl:block">
+        {type === FiltersFormPropsType.LIBRARY
+          ? 'Create your library:'
+          : 'Filters:'}
+      </p>
       <Formik
         initialValues={initialValues}
         onSubmit={handleSubmitFilters}

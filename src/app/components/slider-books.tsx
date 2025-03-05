@@ -7,7 +7,6 @@ import CustomIcon from './custom-icon';
 import clsx from 'clsx';
 import RecommendedListItem from './recommended-list-item';
 import { FiltersFormPropsType } from './filters-form';
-import MyLibraryItem from './my-library-item';
 import {
   LibraryBookCredentials,
   RecommendCredentialsInnerData,
@@ -17,15 +16,9 @@ export interface SliderBooksProps {
   data: Array<LibraryBookCredentials | RecommendCredentialsInnerData>;
   type: string;
   title: string;
-  libraryItem?: boolean;
 }
 
-export default function SliderBooks({
-  data,
-  type,
-  title,
-  libraryItem,
-}: SliderBooksProps) {
+export default function SliderBooks({ data, type, title }: SliderBooksProps) {
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
   const [haveData, setHaveData] = useState(false);
@@ -84,7 +77,7 @@ export default function SliderBooks({
           type === 'own' ? 'justify-center mt-4' : 'justify-between mb-[22px]',
         )}
       >
-        <h3 className={clsx(type === 'own' ? 'hidden' : 'text-bolt text-xl')}>
+        <h3 className={clsx(type === 'own' ? 'hidden' : 'text-bolt text-xl xl:text-3xl')}>
           {title}
         </h3>
         <div>
@@ -116,27 +109,18 @@ export default function SliderBooks({
           </button>
         </div>
       </div>
-      <div className="max-w-[100%]">
+      <div className="max-w-full">
         <div ref={emblaRef} className="overflow-hidden">
-          <ul
-            className={clsx(
-              'flex  gap-5 md:gap-6 md:max-h-[560px]',
-              libraryItem ? '' : 'md:flex-wrap md:flex-col',
-            )}
-          >
+          <ul className="flex gap-5 md:gap-6 md:max-h-[560px] xl:gap-5 xl:w-[770px] md:flex-wrap md:flex-col">
             {data.map(
               (
                 item: LibraryBookCredentials | RecommendCredentialsInnerData,
               ) => (
-                <li key={item._id}>
-                  {libraryItem ? (
-                    <MyLibraryItem data={item} />
-                  ) : (
-                    <RecommendedListItem
-                      data={item}
-                      typeItem={FiltersFormPropsType.RECOMMENDED}
-                    />
-                  )}
+                <li key={item._id} className="hover:bg-neutral-700 rounded-md">
+                  <RecommendedListItem
+                    data={item}
+                    typeItem={FiltersFormPropsType.RECOMMENDED}
+                  />
                 </li>
               ),
             )}

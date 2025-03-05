@@ -66,13 +66,11 @@ export default function ProgressReading({
   }, [data, router, status]);
 
   if (getProgressToDiary().length === 0 || status === 'pending') {
-    console.log('Loading from progress-reading');
-
     return <NoProgress />;
   }
 
   return (
-    <div>
+    <div className="xl:h-[440px]">
       <div className="flex justify-between mb-[22px]">
         <h2 className="md:text-xl">{isStatistic ? 'Statistics' : 'Diary'}</h2>
         <div>
@@ -96,7 +94,14 @@ export default function ProgressReading({
           </button>
         </div>
       </div>
-      <div className="rounded-xl bg-gray p-4 pr-2 md:w-[321px]">
+      {isStatistic && (
+        <p className="hidden xl:block xl:text-lightGray xl:text-sm xl:mb-5 xl:max-w-[293px]">
+          Each page, each chapter is a new round of knowledge, a new step
+          towards understanding. By rewriting statistics, we create our own
+          reading history.
+        </p>
+      )}
+      <div className="rounded-xl bg-gray p-4 pr-2 md:w-[321px] xl:flex-grow">
         {isStatistic ? (
           <Statistics
             totalPages={totalPages}

@@ -6,8 +6,12 @@ import { useEffect } from 'react';
 export default function Home() {
   const router = useRouter();
   useEffect(() => {
-    // router.push('/login');
+    router.push('/login');
   }, [router]);
 
-  return <h1>home</h1>;
+  return (
+    <div>
+      <h1>home</h1>
+    </div>
+  );
 }

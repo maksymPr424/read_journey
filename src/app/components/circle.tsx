@@ -6,7 +6,10 @@ const CircularProgress = ({ progress }: { progress: number }) => {
   const offset = circumference - (progress / 100) * circumference;
 
   return (
-    <svg className="w-32 h-32 transform -rotate-90" viewBox="0 0 120 120">
+    <svg
+      className="w-32 h-32 xl:w-[189px] xl:h-[189px] transform -rotate-90"
+      viewBox="0 0 120 120"
+    >
       <circle
         className="stroke-lightDark"
         cx="60"
@@ -33,7 +36,7 @@ const CircularProgress = ({ progress }: { progress: number }) => {
         y="60"
         textAnchor="middle"
         dy="8"
-        className="text-lg md:text-xl font-bold fill-current text-foreground"
+        className="text-lg md:text-xl xl:text-sm font-bold fill-current text-foreground"
         transform="rotate(90 60 60)"
       >
         100%

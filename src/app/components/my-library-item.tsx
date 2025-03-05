@@ -27,7 +27,6 @@ export default function MyLibraryItem({ data }: RecommendedListItemProps) {
   const mutateDel = useMutation({
     mutationFn: delateBook,
     onSuccess(data: deleteResponseCred) {
-      console.log(data);
       const previousBooks =
         (queryClient.getQueryData(['own']) as LibraryBookCredentials[]) || [];
 
@@ -54,7 +53,7 @@ export default function MyLibraryItem({ data }: RecommendedListItemProps) {
   });
 
   const handleGoBook = () => {
-    toast.info('Go to reading...')
+    toast.info('Go to reading...');
     mutateAdd.mutate({ id: _id });
   };
 
@@ -82,7 +81,7 @@ export default function MyLibraryItem({ data }: RecommendedListItemProps) {
           width={138}
           height={208}
         />
-        <div className="mt-2 flex items-center justify-between">
+        <div className="mt-2 flex items-center justify-between p-[2px]">
           <div>
             <h3 className="text-bolt text-sm text-left">{getTitle()}</h3>
             <p className="text-lightGray text-xs text-left mt-[2px]">

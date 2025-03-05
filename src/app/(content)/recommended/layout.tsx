@@ -5,9 +5,9 @@ export interface LayoutProps {
 
 export default function Layout({ filters, recommended }: LayoutProps) {
   return (
-    <>
+    <div className="xl:flex xl:gap-4">
       {filters}
       {recommended}
-    </>
+    </div>
   );
 }

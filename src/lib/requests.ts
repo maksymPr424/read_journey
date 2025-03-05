@@ -137,8 +137,6 @@ export async function delateBook({
 }
 
 export async function startReading({ id, page }: startReadingProps) {
-  console.log(id);
-
   const res = await api.post('books/reading/start', { id, page });
   return res.data;
 }
@@ -149,8 +147,6 @@ export async function finishReading({ id, page }: startReadingProps) {
 }
 
 export async function currentBook({ id }: { id: string }) {
-  console.log(id);
-
   const book = await api(`books/${id}`);
   return book.data;
 }

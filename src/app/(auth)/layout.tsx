@@ -43,7 +43,6 @@ export default function Layout({ children }: LayoutProps) {
       }
     },
     onError() {
-      console.log('❌ Refresh failed, redirecting to login...');
       queryClient.clear();
 
       if (!hasRedirected.current) {
@@ -71,7 +70,7 @@ export default function Layout({ children }: LayoutProps) {
 
     setBearerToken(user.token);
 
-    if (Date.now() - dataUpdatedAt > 30 * 60 * 1000) {
+    if (Date.now() - dataUpdatedAt >= 30 * 60 * 1000) {
       mutation.mutate();
     }
 
@@ -83,11 +82,11 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <QueryProvider>
-      <section className="m-auto p-5 m:max-w-[375px] md:flex md:flex-col md:h-[100vh] md:p-8">
-        <div className="rounded-[30px] bg-lightDark overflow-hidden p-5 pb-10 h-[470px] max-[375px]:h-[500px] flex flex-col md:flex-grow md:pt-10 md:pl-16">
-          <div className="mb-[40px] md:mb-[157px]">
+      <section className="m-auto p-5 m:max-w-[375px] md:flex md:flex-col md:h-[100vh] md:p-8 xl:flex-row xl:gap-4 xl:max-h-[800px] xl:overflow-hidden">
+        <div className="rounded-[30px] bg-lightDark overflow-hidden p-5 pb-10 h-[470px] max-[375px]:h-[500px] flex flex-col md:flex-grow md:pt-10 md:pl-16 xl:h-full">
+          <div className="mb-[40px] md:mb-[157px] xl:mb-[107px]">
             <Link
-              href="/"
+              href={user ? '/recommended' : '/login'}
               className="md:flex md:items-center md:gap-1 max-w-max block"
             >
               <CustomIcon id="icon-Logo" className="w-[42px] h-[17px]" />
@@ -105,8 +104,12 @@ export default function Layout({ children }: LayoutProps) {
             {children}
           </div>
         </div>
-        <div className="mt-4 pt-5 px-10 rounded-[30px] bg-lightDark overflow-hidden md:hidden">
-          <CustomImage src={phone} alt="Recommended books" className="h-full" />
+        <div className="mt-4 pt-5 px-10 rounded-[30px] bg-lightDark overflow-hidden md:hidden xl:block xl:mt-0 xl:px-0 xl:pt-20 xl:max-w-[600px]">
+          <CustomImage
+            src={phone}
+            alt="Recommended books"
+            className="h-full xl:object-contain"
+          />
         </div>
       </section>
     </QueryProvider>

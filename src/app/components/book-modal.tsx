@@ -74,7 +74,6 @@ export default function BookModal({
     );
 
     if (alreadyAdd.length !== 0) {
-      console.log('Це ж було вже');
 
       handleCloseMenu();
       handleOpenInfoModal();
@@ -82,7 +81,6 @@ export default function BookModal({
     }
 
     mutationLib.mutate({ _id });
-    console.log(_id);
     handleCloseMenu();
   };
 

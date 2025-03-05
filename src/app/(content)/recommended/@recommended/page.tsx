@@ -17,7 +17,6 @@ export default function Recommended() {
       getRecommended({ title: '', author: '', page: 1, limit: 30 }),
     staleTime: 60 * 60 * 1000,
   });
-  console.log(data);
 
   useEffect(() => {
     if (status === 'error') {
@@ -34,12 +33,11 @@ export default function Recommended() {
     return <Loading />;
   }
 
-  console.log(data.results);
 
   return (
     <section>
       {data && (
-        <div className="rounded-[30px] bg-lightDark overflow-hidden px-5 py-10 mt-[10px] flex flex-col gap-5 md:px-10">
+        <div className="rounded-[30px] bg-lightDark overflow-hidden px-5 py-10 mt-[10px] flex flex-col gap-5 md:px-10 xl:m-0 xl:h-full xl:px-10 xl:pt-10 xl:pb-7">
           <SliderBooks data={data.results} type="rec" title="Recommended" />
         </div>
       )}

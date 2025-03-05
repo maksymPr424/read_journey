@@ -5,9 +5,9 @@ import Sun from '../../../public/images/sun.png';
 
 export default function NoProgress() {
   return (
-    <div className="md:max-w-[305px]">
-      <h3 className="text-bolt text-lg mb-[14px] md:text-xl">Progress</h3>
-      <p className="text-lightGray text-[13px] md:text-sm mb-5 md:mb-[50px]">
+    <div className="md:max-w-[305px] xl:max-w-[313px]">
+      <h3 className="text-bolt text-lg mb-[14px] md:text-xl ">Progress</h3>
+      <p className="text-lightGray text-[13px] md:text-sm mb-5 md:mb-[50px] xl:mb-15">
         Here you will see when and how much you read. To record, click on the
         red button above.
       </p>

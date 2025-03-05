@@ -8,14 +8,24 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import CustomIcon from './components/custom-icon';
 import RoundedContent from './components/rounded-content';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryClient } from './providers';
 import { logOut } from '@/lib/auth';
 import { toast } from 'sonner';
+import { UserCredentials } from '@/lib/requests';
+import Loading from './(content)/loading';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
+
+  const { data: user, status } = useQuery<UserCredentials | null>({
+    queryKey: ['user'],
+    staleTime: 30 * 60 * 1000,
+    queryFn: async () => queryClient.getQueryData(['user']) ?? Promise.reject(),
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+  });
 
   const pathname = usePathname();
 
@@ -40,9 +50,13 @@ export default function Header() {
     mutation.mutate();
   };
 
+  if (status === 'pending') {
+    return <Loading />;
+  }
+
   return (
-    <header className="flex items-center justify-between p-5 bg-lightDark rounded-2xl mb-[10px] max-w-[335px] mx-auto md:max-w-[704px] md:p-4">
-      <Link href="/">
+    <header className="flex items-center justify-between p-5 bg-lightDark rounded-2xl mb-[10px] max-w-[335px] mx-auto md:max-w-[704px] xl:max-w-[1216px] md:p-4 xl:py-6 xl:px-4">
+      <Link href={user ? '/recommended' : '/login'}>
         <button
           onClick={() => handleCloseMenu()}
           className="xl:flex xl:items-center xl:gap-1"
@@ -51,46 +65,48 @@ export default function Header() {
           <p className="hidden xl:block uppercase text-lg">read journey</p>
         </button>
       </Link>
-      <div className="hidden md:flex md:gap-[94px] md:items-center">
-        <div className="md:flex md:gap-8 md:items-center">
-          <Link
-            href="/recommended"
-            className={clsx(
-              'text-sm md:text-base',
-              pathname.includes('recommended')
-                ? 'text-foreground'
-                : 'text-lightGray',
-              pathname.includes('recommended') &&
-                'relative before:content-[""] before:absolute before:bottom-[-4] before:w-full before:h-[3px] before:bg-blue before:rounded-lg',
-            )}
-          >
-            <button onClick={() => handleCloseMenu()}>Home</button>
-          </Link>
-          <Link
-            href="/library"
-            className={clsx(
-              'text-sm',
-              pathname.includes('library')
-                ? 'text-foreground'
-                : 'text-lightGray',
-              pathname.includes('library') &&
-                'relative before:content-[""] before:absolute before:bottom-[-4] before:w-full before:h-[3px] before:bg-blue before:rounded-lg',
-            )}
-          >
-            <button onClick={() => handleCloseMenu()}>My library</button>
-          </Link>
-        </div>
-        <div className="flex gap-4 items-center">
+
+      <div className="hidden md:flex md:gap-8 md:items-center md:translate-x-1/2">
+        <Link
+          href="/recommended"
+          className={clsx(
+            'text-sm md:text-base hover:text-foreground',
+            pathname.includes('recommended')
+              ? 'text-foreground'
+              : 'text-lightGray',
+            pathname.includes('recommended') &&
+              'relative before:content-[""] before:absolute before:bottom-[-4px] before:w-full before:h-[3px] before:bg-blue before:rounded-lg',
+          )}
+        >
+          <button onClick={() => handleCloseMenu()}>Home</button>
+        </Link>
+        <Link
+          href="/library"
+          className={clsx(
+            'text-sm md:text-base hover:text-foreground',
+            pathname.includes('library') ? 'text-foreground' : 'text-lightGray',
+            pathname.includes('library') &&
+              'relative before:content-[""] before:absolute before:bottom-[-4px] before:w-full before:h-[3px] before:bg-blue before:rounded-lg',
+          )}
+        >
+          <button onClick={() => handleCloseMenu()}>My library</button>
+        </Link>
+      </div>
+      <div className="hidden md:flex md:gap-4 md:items-center">
+        <div className="xl:flex xl:items-center xl:gap-2">
           <RoundedContent className="w-[35px] h-[35px] border-lightGray bg-gray text-base font-bolt md:w-10 md:h-10">
-            I
+            {user && user.name.charAt(0)}
           </RoundedContent>
-          <TransButton onClick={handleLogOut}>Log out</TransButton>
+          <p className="hidden xl:block xl:text-bolt xl:text-base">
+            {user && user.name}
+          </p>
         </div>
+        <TransButton onClick={handleLogOut}>Log out</TransButton>
       </div>
 
       <div className="flex items-center gap-[10px] md:hidden">
         <RoundedContent className="w-[35px] h-[35px] border-lightGray bg-gray text-base font-bolt">
-          I
+          {user && user.name.charAt(0)}
         </RoundedContent>
         <button onClick={handleOpenMenu}>
           <CustomIcon id="icon-menu-close" className="w-7 h-7" />
@@ -108,16 +124,12 @@ export default function Header() {
               <Link
                 href="/recommended"
                 className={clsx(
-                  'text-sm relative transition-colors duration-200 ',
+                  'text-sm md:text-base',
                   pathname.includes('recommended')
                     ? 'text-foreground'
                     : 'text-lightGray',
-                  (pathname.includes('recommended') ||
-                    'hover:text-foreground') &&
-                    'before:content-[""] before:absolute before:bottom-[-4px] before:w-full before:h-[3px] before:rounded-lg',
-                  pathname.includes('recommended')
-                    ? 'before:bg-blue'
-                    : 'before:bg-transparent hover:before:bg-blue before:transition-all before:duration-200',
+                  pathname.includes('recommended') &&
+                    'relative before:content-[""] before:absolute before:bottom-[-4px] before:w-full before:h-[3px] before:bg-blue before:rounded-lg',
                 )}
               >
                 <button onClick={() => handleCloseMenu()}>Home</button>
@@ -127,12 +139,12 @@ export default function Header() {
               <Link
                 href="/library"
                 className={clsx(
-                  'text-sm',
+                  'text-sm md:text-base',
                   pathname.includes('library')
                     ? 'text-foreground'
                     : 'text-lightGray',
                   pathname.includes('library') &&
-                    'relative before:content-[""] before:absolute before:bottom-[-4] before:w-full before:h-[3px] before:bg-blue before:rounded-lg',
+                    'relative before:content-[""] before:absolute before:bottom-[-4px] before:w-full before:h-[3px] before:bg-blue before:rounded-lg',
                 )}
               >
                 <button onClick={() => handleCloseMenu()}>My library</button>

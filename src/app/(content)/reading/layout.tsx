@@ -5,9 +5,9 @@ export interface LayoutProps {
 
 export default function Layout({ start, current }: LayoutProps) {
   return (
-    <>
-      <section className="mb-[10px]">{start}</section>
-      <section>{current}</section>
-    </>
+    <div className="xl:flex xl:gap-4">
+      <section className="mb-[10px] xl:mb-0">{start}</section>
+      <section className="xl:flex-grow">{current}</section>
+    </div>
   );
 }

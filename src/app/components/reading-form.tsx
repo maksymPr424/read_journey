@@ -49,8 +49,6 @@ export default function ReadingForm({
   };
 
   useEffect(() => {
-    console.log(currentPageNum);
-    console.log(totalPageNum);
     
     if (currentPageNum === totalPageNum) {
       handleOpenMenu();
@@ -84,7 +82,6 @@ export default function ReadingForm({
   });
 
   const handleSubmit = (values: FormikValues) => {
-    console.log(values);
     if (values.page === totalPageNum && type === ReadingFormType.STOP) {
       handleOpenMenu();
     }

@@ -12,8 +12,6 @@ export async function logOut() {
   try {
     await axios.post('/users/signout');
   } finally {
-    console.log('Logging out...');
-
     queryClient.clear();
     setBearerToken('');
     redirect('/login');
@@ -34,14 +32,13 @@ export async function loginUser(data: LogRegValuesProps) {
 }
 
 export async function refreshUser() {
-  // console.log(getCurrentToken() + ': from refresh');
-
   try {
     const tokens = await axios('users/current/refresh');
     setBearerToken(tokens.data.token);
-    console.log(tokens);
     return tokens.data;
   } catch (error) {
     console.log(error);
+
+    logOut();
   }
 }

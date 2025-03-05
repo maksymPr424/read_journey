@@ -1,8 +1,8 @@
 'use client';
 
 import EmptyCategory from '@/app/components/empty-category';
+import MyLibraryList from '@/app/components/my-library-list';
 import SelectorBooks from '@/app/components/selector-books';
-import SliderBooks from '@/app/components/slider-books';
 import { getOwnBook } from '@/lib/requests';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
@@ -36,9 +36,9 @@ export default function Library() {
   };
 
   return (
-    <div className="mt-[10px] rounded-[30px] bg-lightDark px-5 pt-10 pb-[65px]">
+    <div className="mt-[10px] xl:m-0 rounded-[30px] bg-lightDark px-5 pt-10 pb-[65px] xl:px-10 xl:pb-[28px]">
       <div className="flex justify-between">
-        <h3 className="text-bolt text-xl">My library</h3>
+        <h3 className="text-bolt text-xl xl:text-3xl">My library</h3>
         <SelectorBooks
           allOptions={allFilterOptions}
           sendSelector={getSelector}
@@ -53,12 +53,7 @@ export default function Library() {
         {filteredData().length === 0 ? (
           <EmptyCategory />
         ) : (
-          <SliderBooks
-            data={filteredData()}
-            type="own"
-            title="Recommended"
-            libraryItem={true}
-          />
+          <MyLibraryList data={filteredData()} />
         )}
       </div>
     </div>

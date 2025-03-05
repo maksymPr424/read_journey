@@ -1,3 +1,5 @@
+'use client';
+
 import clsx from 'clsx';
 import CustomImage from './custom-image';
 import { TimeLeftToReadObject } from '@/lib/requests';
@@ -18,9 +20,9 @@ export default function CurrentReadingBook({
   timeLeftToRead,
 }: CurrentReadingBookProps) {
   return (
-    <div>
-      <div className="flex justify-between items-center mb-10">
-        <h3 className="text-bolt text-xl text-left">My reading</h3>
+    <div className="h-full">
+      <div className="flex justify-between items-center mb-10 xl:mb-11">
+        <h3 className="text-bolt text-xl text-left xl:text-3xl">My reading</h3>
         {timeLeftToRead && (
           <p className="text-xs text-lightGray">
             {timeLeftToRead.hours} hours and {timeLeftToRead.minutes} minutes
@@ -34,9 +36,11 @@ export default function CurrentReadingBook({
           alt="Book cover"
           width={137}
           height={208}
-          className="w-[137px] h-[208px] mx-auto"
+          className="w-[137px] h-[208px] xl:w-[224px] xl:h-[310px] mx-auto rounded-md"
         />
-        <h4 className="text-bolt text-sm mt-[10px] md:mt-6">{title}</h4>
+        <h4 className="text-bolt text-sm xl:text-xl mt-[10px] md:mt-6">
+          {title}
+        </h4>
         <p className="text-[10px] md:text-sm mt-1 text-lightGray">{author}</p>
         <button
           className={clsx(
