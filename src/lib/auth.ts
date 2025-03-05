@@ -38,7 +38,5 @@ export async function refreshUser() {
     return tokens.data;
   } catch (error) {
     console.log(error);
-
-    logOut();
   }
 }
