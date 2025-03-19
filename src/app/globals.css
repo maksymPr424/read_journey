@@ -48,8 +48,6 @@ select {
   -moz-appearance: none;
 }
 
-
-
 .custom-scrollbar::-webkit-scrollbar {
   margin-right: 20px;
   /* width: 5px; */

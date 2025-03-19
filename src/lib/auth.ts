@@ -19,9 +19,14 @@ export async function logOut() {
 }
 
 export async function registerUser(data: LogRegValuesProps) {
-  const user = await axios.post('users/signup', data);
-  setBearerToken(user.data.token);
-  return user.data;
+  try {
+    const user = await axios.post('users/signup', data);
+    setBearerToken(user.data.token);
+    return user.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error();
+  }
 }
 
 export async function loginUser(data: LogRegValuesProps) {
@@ -38,5 +43,6 @@ export async function refreshUser() {
     return tokens.data;
   } catch (error) {
     console.log(error);
+    throw new Error();
   }
 }

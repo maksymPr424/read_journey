@@ -55,7 +55,11 @@ export default function LogRegForm({ typeForm }: LogRegFormProps) {
     actions: FormikHelpers<LogRegValuesProps>,
   ) => {
     toast.info(`Pending ${typeForm === 'reg' ? 'registration' : 'login'}`);
-    mutation.mutate(values);
+    mutation.mutate({
+      name: values.name ? values.name.trim() : undefined,
+      email: values.email.trim(),
+      password: values.password.trim(),
+    });
     actions.resetForm();
   };
 

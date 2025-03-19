@@ -86,16 +86,17 @@ export default function FiltersForm({ type }: FiltersFormProps) {
 
   const handleSubmitFilters = (values: SubmitValues) => {
     if (type === FiltersFormPropsType.RECOMMENDED) {
-
       mutationRec.mutate({
-        ...values,
+        title: values.title.trim(),
         page: recommendedInfo.page,
         limit: recommendedInfo.perPage,
+        author: values.author.trim(),
       });
-    } else {
-
+    } else if (values.totalPages) {
       mutationLib.mutate({
-        ...values,
+        title: values.title.trim(),
+        author: values.author.trim(),
+        totalPages: values.totalPages,
       });
     }
   };
